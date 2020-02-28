@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thoughts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Hello and Welcome {{user.first_name}} {{user.last_name}} to your mind!</h1>
+        <a href="/logout" class="float-right">Back to the real world</a>
+
+        <br>
+        <form action="createThought" method="POST" class="text-center">
+            {% csrf_token %}
+            {% if messages %}
+            <ul class="messages">    
+                {% for message in messages %}    
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <textarea name="thought_con" class="border border-secondary " id="thought_con" cols="60" rows="8"></textarea>
+            <br>
+            <input class="btn btn-warning" type="submit" value="Say it out loud"> 
+            
+        </form>
+
+        <div class="thought wall ">
+            {% for thought in all_thought  %}
+                <h1>{{thought.thought_con}}</h1>
+
+                {% if thought_con.user.id == request.session.user_id %}
+                {% else %}
+                    <h4>wirtten by {{thought.user.first_name}}</h4>
+
+                    {% endif %}
+                    
+                    <a href="/viewThought/{{thought.id}}">Delete this message</a>
+                <a href="viewThought/{{thought.id}}">Details</a>
+                <hr>
+
+
+
+            {% endfor %}  
+        </div>
+
+    </div>
+</body>
+</html>
